@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../presentation/auth_screen/auth_screen.dart';
+import '../presentation/billing_screen/billing_screen.dart';
 import '../presentation/profile_settings_screen/profile_settings_screen.dart';
 import '../presentation/marketplace_browse_screen/marketplace_browse_screen.dart';
 import '../presentation/inventory_dashboard/inventory_dashboard.dart';
@@ -7,23 +9,25 @@ import '../presentation/analytics_dashboard_screen/analytics_dashboard_screen.da
 import '../presentation/add_edit_product_screen/add_edit_product_screen.dart';
 
 class AppRoutes {
-  // TODO: Add your routes here
   static const String initial = '/';
-  static const String profileSettings = '/profile-settings-screen';
-  static const String marketplaceBrowse = '/marketplace-browse-screen';
-  static const String inventoryDashboard = '/inventory-dashboard';
+  static const String auth = '/auth';
   static const String businessRegistration = '/business-registration-screen';
-  static const String analyticsDashboard = '/analytics-dashboard-screen';
+  static const String inventoryDashboard = '/inventory-dashboard';
+  static const String billing = '/billing-screen';
   static const String addEditProduct = '/add-edit-product-screen';
+  static const String marketplaceBrowse = '/marketplace-browse-screen';
+  static const String analyticsDashboard = '/analytics-dashboard-screen';
+  static const String profileSettings = '/profile-settings-screen';
 
   static Map<String, WidgetBuilder> routes = {
-    initial: (context) => const InventoryDashboard(),
-    profileSettings: (context) => const ProfileSettingsScreen(),
-    marketplaceBrowse: (context) => const MarketplaceBrowseScreen(),
-    inventoryDashboard: (context) => const InventoryDashboard(),
+    initial: (context) => const AuthScreen(),
+    auth: (context) => const AuthScreen(),
     businessRegistration: (context) => const BusinessRegistrationScreen(),
-    analyticsDashboard: (context) => const AnalyticsDashboardScreen(),
+    inventoryDashboard: (context) => const InventoryDashboard(),
+    billing: (context) => const BillingScreen(),
     addEditProduct: (context) => const AddEditProductScreen(),
-    // TODO: Add your other routes here
+    marketplaceBrowse: (context) => const MarketplaceBrowseScreen(),
+    analyticsDashboard: (context) => const AnalyticsDashboardScreen(),
+    profileSettings: (context) => const ProfileSettingsScreen(),
   };
 }

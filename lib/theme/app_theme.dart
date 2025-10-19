@@ -5,11 +5,11 @@ import 'package:google_fonts/google_fonts.dart';
 class AppTheme {
   AppTheme._();
 
-  // Professional Earth Tones Color Palette
-  static const Color primaryLight = Color(0xFF2E7D5A); // Forest green
-  static const Color primaryVariantLight = Color(0xFF1E5A3F);
-  static const Color secondaryLight = Color(0xFFF4A261); // Warm amber
-  static const Color secondaryVariantLight = Color(0xFFE76F51);
+  // InvenShop Color Palette - Indian Market Focused
+  static const Color primaryLight = Color(0xFF2E7D32); // Trust, Growth (Green)
+  static const Color primaryVariantLight = Color(0xFF1B5E20);
+  static const Color secondaryLight = Color(0xFFFF6B35); // Energy, Action (Orange)
+  static const Color secondaryVariantLight = Color(0xFFE65100);
   static const Color backgroundLight = Color(0xFFFFFFFF); // Pure white
   static const Color surfaceLight = Color(0xFFFAFAFA); // Clean background
   static const Color errorLight = Color(0xFFE76F51); // Muted red-orange
@@ -21,10 +21,10 @@ class AppTheme {
   static const Color onSurfaceLight = Color(0xFF2D3748);
   static const Color onErrorLight = Color(0xFFFFFFFF);
 
-  static const Color primaryDark = Color(0xFF52B788);
-  static const Color primaryVariantDark = Color(0xFF2E7D5A);
-  static const Color secondaryDark = Color(0xFFF4A261);
-  static const Color secondaryVariantDark = Color(0xFFE76F51);
+  static const Color primaryDark = Color(0xFF4CAF50);
+  static const Color primaryVariantDark = Color(0xFF2E7D32);
+  static const Color secondaryDark = Color(0xFFFF6B35);
+  static const Color secondaryVariantDark = Color(0xFFE65100);
   static const Color backgroundDark = Color(0xFF1A202C);
   static const Color surfaceDark = Color(0xFF2D3748);
   static const Color errorDark = Color(0xFFE76F51);

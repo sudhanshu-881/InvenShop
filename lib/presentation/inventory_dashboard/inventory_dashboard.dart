@@ -22,138 +22,138 @@ class _InventoryDashboardState extends State<InventoryDashboard>
   late TabController _tabController;
 
   // Mock data for business
-  final String businessName = "Mike's Electronics Store";
-  final int notificationCount = 3;
+  final String businessName = "Rajesh Kumar General Store";
+  final int notificationCount = 5;
 
-  // Mock metrics data
+  // Mock metrics data - Indian retail focused
   final List<Map<String, dynamic>> metricsData = [
     {
       "title": "Total Items",
       "value": "1,247",
-      "subtitle": "+12 today",
+      "subtitle": "+12 आज",
       "statusColor": AppTheme.successLight,
       "iconName": "inventory_2",
     },
     {
       "title": "Low Stock",
       "value": "23",
-      "subtitle": "Need attention",
+      "subtitle": "तुरंत ध्यान दें",
       "statusColor": AppTheme.errorLight,
       "iconName": "warning",
     },
     {
       "title": "Today's Sales",
-      "value": "\$2,840",
-      "subtitle": "+15% vs yesterday",
+      "value": "₹2,840",
+      "subtitle": "+15% कल से",
       "statusColor": AppTheme.successLight,
       "iconName": "trending_up",
     },
     {
-      "title": "Marketplace",
-      "value": "156",
-      "subtitle": "Active listings",
-      "statusColor": AppTheme.secondaryLight,
-      "iconName": "store",
+      "title": "Credit Dues",
+      "value": "₹15,600",
+      "subtitle": "12 customers",
+      "statusColor": AppTheme.warningLight,
+      "iconName": "account_balance_wallet",
     },
   ];
 
-  // Mock recent additions data
+  // Mock recent additions data - Indian retail products
   final List<Map<String, dynamic>> recentAdditions = [
     {
       "id": 1,
-      "name": "iPhone 15 Pro Max",
-      "category": "Smartphones",
+      "name": "Tata Salt 1kg",
+      "category": "Groceries",
       "stock": 45,
-      "price": "\$1,199",
+      "price": "₹25",
       "image":
-          "https://images.unsplash.com/photo-1636462060335-a0e53fcba38f",
+          "https://images.unsplash.com/photo-1586201375761-83865001e31c",
       "semanticLabel":
-          "Modern black smartphone with sleek design lying on white surface with soft lighting",
+          "White salt packet with Tata logo on clean background",
     },
     {
       "id": 2,
-      "name": "Samsung Galaxy Watch 6",
-      "category": "Wearables",
+      "name": "Maggi Noodles 2-Minute",
+      "category": "Food & Beverages",
       "stock": 28,
-      "price": "\$329",
+      "price": "₹14",
       "image":
-          "https://images.unsplash.com/photo-1684691106418-3b9e4a63ee64",
+          "https://images.unsplash.com/photo-1569718212165-3a8278d5f624",
       "semanticLabel":
-          "Silver smartwatch with black sport band displaying digital interface on white background",
+          "Yellow Maggi noodles packet with red logo on white background",
     },
     {
       "id": 3,
-      "name": "MacBook Air M3",
-      "category": "Laptops",
+      "name": "Parle-G Biscuits 100g",
+      "category": "Snacks",
       "stock": 12,
-      "price": "\$1,299",
+      "price": "₹5",
       "image":
-          "https://images.unsplash.com/photo-1518472803163-8d3a9e90792c",
+          "https://images.unsplash.com/photo-1558961363-fa8fdf82db35",
       "semanticLabel":
-          "Silver laptop computer opened on wooden desk with clean modern workspace setup",
+          "Orange Parle-G biscuit packet with child's face on clean background",
     },
   ];
 
-  // Mock low stock items data
+  // Mock low stock items data - Indian retail products
   final List<Map<String, dynamic>> lowStockItems = [
     {
       "id": 4,
-      "name": "AirPods Pro 2nd Gen",
-      "category": "Audio",
+      "name": "Coca Cola 600ml",
+      "category": "Beverages",
       "stock": 3,
-      "price": "\$249",
+      "price": "₹35",
       "image":
-          "https://images.unsplash.com/photo-1596789270729-df562b516d96",
+          "https://images.unsplash.com/photo-1581636625402-29b2a704ef6f",
       "semanticLabel":
-          "White wireless earbuds in charging case on minimalist white surface with soft shadows",
+          "Red Coca Cola bottle with white logo on clean background",
     },
     {
       "id": 5,
-      "name": "iPad Pro 12.9",
-      "category": "Tablets",
+      "name": "Lays Classic 50g",
+      "category": "Snacks",
       "stock": 5,
-      "price": "\$1,099",
+      "price": "₹20",
       "image":
-          "https://images.unsplash.com/photo-1603695680521-1f8489438a92",
+          "https://images.unsplash.com/photo-1566478989037-eec170784d0b",
       "semanticLabel":
-          "Black tablet device with large screen displaying colorful interface on modern desk",
+          "Yellow Lays chips packet with red logo on white background",
     },
   ];
 
-  // Mock top selling products data
+  // Mock top selling products data - Indian retail products
   final List<Map<String, dynamic>> topSellingProducts = [
     {
       "id": 6,
-      "name": "iPhone 14",
-      "category": "Smartphones",
+      "name": "Aashirvaad Atta 5kg",
+      "category": "Groceries",
       "stock": 67,
-      "price": "\$799",
+      "price": "₹180",
       "image":
-          "https://images.unsplash.com/photo-1662627362392-da345c6f7731",
+          "https://images.unsplash.com/photo-1586201375761-83865001e31c",
       "semanticLabel":
-          "Blue smartphone with modern design placed on white surface with professional lighting",
+          "White flour packet with Aashirvaad logo on clean background",
     },
     {
       "id": 7,
-      "name": "Samsung Galaxy S24",
-      "category": "Smartphones",
+      "name": "Dabur Honey 500g",
+      "category": "Health & Wellness",
       "stock": 34,
-      "price": "\$899",
+      "price": "₹120",
       "image":
-          "https://images.unsplash.com/photo-1527912634026-9155185a7fe3",
+          "https://images.unsplash.com/photo-1558642084-fd07fae5282e",
       "semanticLabel":
-          "Black Android smartphone with curved edges displaying home screen on dark surface",
+          "Golden honey jar with Dabur logo on wooden surface",
     },
     {
       "id": 8,
-      "name": "Apple Watch Series 9",
-      "category": "Wearables",
+      "name": "Surf Excel 1kg",
+      "category": "Household",
       "stock": 89,
-      "price": "\$399",
+      "price": "₹95",
       "image":
-          "https://images.unsplash.com/photo-1617043593449-c881f876a4b4",
+          "https://images.unsplash.com/photo-1581578731548-c6a0c3f2fcc0",
       "semanticLabel":
-          "Rose gold smartwatch with white sport band showing fitness app interface on wrist",
+          "Blue detergent powder packet with Surf Excel logo on white background",
     },
   ];
 
@@ -453,9 +453,12 @@ class _InventoryDashboardState extends State<InventoryDashboard>
               Navigator.pushNamed(context, '/add-edit-product-screen');
               break;
             case 2:
-              Navigator.pushNamed(context, '/marketplace-browse-screen');
+              Navigator.pushNamed(context, '/billing-screen');
               break;
             case 3:
+              Navigator.pushNamed(context, '/analytics-dashboard-screen');
+              break;
+            case 4:
               Navigator.pushNamed(context, '/profile-settings-screen');
               break;
           }
@@ -487,7 +490,7 @@ class _InventoryDashboardState extends State<InventoryDashboard>
           ),
           BottomNavigationBarItem(
             icon: CustomIconWidget(
-              iconName: 'store',
+              iconName: 'point_of_sale',
               color: _currentIndex == 2
                   ? Theme.of(context).bottomNavigationBarTheme.selectedItemColor
                   : Theme.of(context)
@@ -495,12 +498,24 @@ class _InventoryDashboardState extends State<InventoryDashboard>
                       .unselectedItemColor,
               size: 6.w,
             ),
-            label: 'Marketplace',
+            label: 'Billing',
+          ),
+          BottomNavigationBarItem(
+            icon: CustomIconWidget(
+              iconName: 'analytics',
+              color: _currentIndex == 3
+                  ? Theme.of(context).bottomNavigationBarTheme.selectedItemColor
+                  : Theme.of(context)
+                      .bottomNavigationBarTheme
+                      .unselectedItemColor,
+              size: 6.w,
+            ),
+            label: 'Analytics',
           ),
           BottomNavigationBarItem(
             icon: CustomIconWidget(
               iconName: 'person',
-              color: _currentIndex == 3
+              color: _currentIndex == 4
                   ? Theme.of(context).bottomNavigationBarTheme.selectedItemColor
                   : Theme.of(context)
                       .bottomNavigationBarTheme

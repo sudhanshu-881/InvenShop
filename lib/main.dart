@@ -1,38 +1,61 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sizer/sizer.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
-import '../core/app_export.dart';
-import '../widgets/custom_error_widget.dart';
+import 'core/app_export.dart';
+import 'core/app_config.dart';
+import 'core/error_handler.dart';
+import 'core/offline_manager.dart';
+import 'widgets/custom_error_widget.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  bool _hasShownError = false;
+  // Initialize Hive for local storage
+  await Hive.initFlutter();
 
-  // 🚨 CRITICAL: Custom error handling - DO NOT REMOVE
-  ErrorWidget.builder = (FlutterErrorDetails details) {
-    if (!_hasShownError) {
-      _hasShownError = true;
+  // Initialize error handling
+  _initializeErrorHandling();
 
-      // Reset flag after 3 seconds to allow error widget on new screens
-      Future.delayed(Duration(seconds: 5), () {
-        _hasShownError = false;
-      });
+  // Initialize offline manager
+  await OfflineManager().initialize();
 
-      return CustomErrorWidget(
-        errorDetails: details,
-      );
+  // Set device orientation
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
+  // Initialize app
+  runApp(MyApp());
+}
+
+void _initializeErrorHandling() {
+  // Set up global error handling
+  FlutterError.onError = (FlutterErrorDetails details) {
+    FlutterError.presentError(details);
+    
+    // Log error for debugging
+    if (AppConfig.enableLogging) {
+      print('Flutter Error: ${details.exception}');
+      print('Stack trace: ${details.stack}');
     }
-    return SizedBox.shrink();
   };
 
-  // 🚨 CRITICAL: Device orientation lock - DO NOT REMOVE
-  Future.wait([
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-  ]).then((value) {
-    runApp(MyApp());
-  });
+  // Set up error widget builder
+  ErrorWidget.builder = (FlutterErrorDetails details) {
+    return CustomErrorWidget(
+      errorDetails: details,
+    );
+  };
+
+  // Set up platform error handling
+  PlatformDispatcher.instance.onError = (error, stack) {
+    if (AppConfig.enableLogging) {
+      print('Platform Error: $error');
+      print('Stack trace: $stack');
+    }
+    return true;
+  };
 }
 
 class MyApp extends StatelessWidget {
@@ -40,7 +63,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Sizer(builder: (context, orientation, screenType) {
       return MaterialApp(
-        title: 'shopstock_pro',
+        title: AppConfig.appName,
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
         themeMode: ThemeMode.light,
@@ -54,10 +77,53 @@ class MyApp extends StatelessWidget {
           );
         },
         // 🚨 END CRITICAL SECTION
-        debugShowCheckedModeBanner: false,
+        debugShowCheckedModeBanner: AppConfig.isDebugMode,
         routes: AppRoutes.routes,
         initialRoute: AppRoutes.initial,
+        // Global error handling
+        onGenerateRoute: (settings) {
+          return MaterialPageRoute(
+            builder: (context) => _buildErrorPage(settings.name ?? ''),
+          );
+        },
       );
     });
+  }
+
+  Widget _buildErrorPage(String routeName) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CustomIconWidget(
+              iconName: 'error',
+              size: 80,
+              color: AppTheme.errorLight,
+            ),
+            SizedBox(height: 2.h),
+            Text(
+              'Page Not Found',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 1.h),
+            Text(
+              'The page "$routeName" could not be found.',
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 3.h),
+            ElevatedButton(
+              onPressed: () {
+                // Navigate to home
+              },
+              child: Text('Go Home'),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
