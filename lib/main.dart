@@ -10,6 +10,7 @@ import 'core/error_handler.dart';
 import 'core/offline_manager.dart';
 import 'widgets/custom_error_widget.dart';
 import 'services/supabase_service.dart';
+import 'services/firebase_notification_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,6 +20,9 @@ void main() async {
 
   // Initialize Supabase
   await SupabaseService.initialize();
+
+  // Initialize Firebase FCM
+  await FirebaseNotificationService.initialize();
 
   // Initialize error handling
   _initializeErrorHandling();

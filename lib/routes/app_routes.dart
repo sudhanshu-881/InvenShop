@@ -13,6 +13,7 @@ import '../presentation/analytics_dashboard_screen/analytics_dashboard_screen.da
 import '../presentation/add_edit_product_screen/add_edit_product_screen.dart';
 import '../presentation/customer_management_screen/simplified_customer_screen.dart';
 import '../presentation/product_management/simplified_product_screen.dart';
+import '../presentation/notification_settings_screen/notification_settings_screen.dart';
 
 class AppRoutes {
   static const String initial = '/';
@@ -24,6 +25,7 @@ class AppRoutes {
   static const String marketplaceBrowse = '/marketplace-browse-screen';
   static const String analyticsDashboard = '/analytics-dashboard-screen';
   static const String profileSettings = '/profile-settings-screen';
+  static const String notificationSettings = '/notification-settings-screen';
   
   // Simplified routes
   static const String simplifiedAuth = '/simplified-auth';
@@ -45,6 +47,7 @@ class AppRoutes {
     marketplaceBrowse: (context) => const MarketplaceBrowseScreen(),
     analyticsDashboard: (context) => const AnalyticsDashboardScreen(),
     profileSettings: (context) => const ProfileSettingsScreen(),
+    notificationSettings: (context) => const NotificationSettingsScreen(),
     
     // Simplified routes
     simplifiedAuth: (context) => const SimplifiedAuthScreen(),

@@ -166,6 +166,33 @@ CREATE TABLE images (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- User tokens table for FCM tokens
+CREATE TABLE user_tokens (
+  id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
+  fcm_token TEXT NOT NULL,
+  platform TEXT NOT NULL, -- 'android', 'ios', 'web'
+  is_active BOOLEAN DEFAULT TRUE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  UNIQUE(user_id, fcm_token)
+);
+
+-- Scheduled notifications table
+CREATE TABLE scheduled_notifications (
+  id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
+  title TEXT NOT NULL,
+  message TEXT NOT NULL,
+  type TEXT DEFAULT 'scheduled',
+  data JSONB DEFAULT '{}',
+  scheduled_date TIMESTAMP WITH TIME ZONE NOT NULL,
+  is_sent BOOLEAN DEFAULT FALSE,
+  sent_at TIMESTAMP WITH TIME ZONE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
 -- Create indexes for better performance
 CREATE INDEX idx_products_shop_id ON products(shop_id);
 CREATE INDEX idx_products_category_id ON products(category_id);
@@ -194,6 +221,11 @@ CREATE INDEX idx_analytics_events_shop_id ON analytics_events(shop_id);
 CREATE INDEX idx_images_shop_id ON images(shop_id);
 CREATE INDEX idx_images_entity ON images(entity_id, entity_type);
 CREATE INDEX idx_images_public_id ON images(public_id);
+CREATE INDEX idx_user_tokens_user_id ON user_tokens(user_id);
+CREATE INDEX idx_user_tokens_fcm_token ON user_tokens(fcm_token);
+CREATE INDEX idx_scheduled_notifications_user_id ON scheduled_notifications(user_id);
+CREATE INDEX idx_scheduled_notifications_scheduled_date ON scheduled_notifications(scheduled_date);
+CREATE INDEX idx_scheduled_notifications_is_sent ON scheduled_notifications(is_sent);
 
 -- Create functions for common operations
 
@@ -413,6 +445,12 @@ CREATE TRIGGER update_staff_updated_at BEFORE UPDATE ON staff
 CREATE TRIGGER update_images_updated_at BEFORE UPDATE ON images
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
+CREATE TRIGGER update_user_tokens_updated_at BEFORE UPDATE ON user_tokens
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER update_scheduled_notifications_updated_at BEFORE UPDATE ON scheduled_notifications
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
 -- Row Level Security (RLS) policies
 ALTER TABLE shops ENABLE ROW LEVEL SECURITY;
 ALTER TABLE categories ENABLE ROW LEVEL SECURITY;
@@ -424,6 +462,8 @@ ALTER TABLE staff ENABLE ROW LEVEL SECURITY;
 ALTER TABLE notifications ENABLE ROW LEVEL SECURITY;
 ALTER TABLE analytics_events ENABLE ROW LEVEL SECURITY;
 ALTER TABLE images ENABLE ROW LEVEL SECURITY;
+ALTER TABLE user_tokens ENABLE ROW LEVEL SECURITY;
+ALTER TABLE scheduled_notifications ENABLE ROW LEVEL SECURITY;
 
 -- RLS Policies for shops
 CREATE POLICY "Users can view their own shop" ON shops
@@ -536,6 +576,32 @@ CREATE POLICY "Users can update images of their shop" ON images
 
 CREATE POLICY "Users can delete images of their shop" ON images
   FOR DELETE USING (auth.uid() = shop_id);
+
+-- RLS Policies for user_tokens
+CREATE POLICY "Users can view their own tokens" ON user_tokens
+  FOR SELECT USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can insert their own tokens" ON user_tokens
+  FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+CREATE POLICY "Users can update their own tokens" ON user_tokens
+  FOR UPDATE USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can delete their own tokens" ON user_tokens
+  FOR DELETE USING (auth.uid() = user_id);
+
+-- RLS Policies for scheduled_notifications
+CREATE POLICY "Users can view their own scheduled notifications" ON scheduled_notifications
+  FOR SELECT USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can insert their own scheduled notifications" ON scheduled_notifications
+  FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+CREATE POLICY "Users can update their own scheduled notifications" ON scheduled_notifications
+  FOR UPDATE USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can delete their own scheduled notifications" ON scheduled_notifications
+  FOR DELETE USING (auth.uid() = user_id);
 
 -- Insert default categories for new shops
 CREATE OR REPLACE FUNCTION create_default_categories()
