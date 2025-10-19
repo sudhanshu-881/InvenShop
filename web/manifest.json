@@ -4,8 +4,8 @@
   "description": "Your Digital Shop Assistant for Indian Retail",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#2E7D32",
-  "theme_color": "#FF6B35",
+  "background_color": "#ffffff",
+  "theme_color": "#1976D2",
   "orientation": "portrait",
   "icons": [
     {
