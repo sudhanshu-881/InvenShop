@@ -9,6 +9,7 @@
     
     <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#2E7D32">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="InvenShop">
@@ -540,30 +541,81 @@
     <script>
         // Navigation functions
         function continueToWebApp() {
-            document.querySelector('.container').style.display = 'none';
-            document.getElementById('web-app-interface').style.display = 'block';
-            document.getElementById('mobile-app-section').style.display = 'none';
+            console.log('🌐 Opening web app interface...');
+            
+            // Hide landing page content
+            const landingContent = document.querySelector('.hero-section, .features, .cta-section, .demo-section, .status');
+            if (landingContent) {
+                landingContent.style.display = 'none';
+            }
+            
+            // Show web app interface
+            const webAppInterface = document.getElementById('web-app-interface');
+            if (webAppInterface) {
+                webAppInterface.style.display = 'block';
+            }
+            
+            // Hide mobile app section
+            const mobileAppSection = document.getElementById('mobile-app-section');
+            if (mobileAppSection) {
+                mobileAppSection.style.display = 'none';
+            }
             
             // Update URL without page reload
             history.pushState({page: 'web-app'}, 'InvenShop Web App', '#web-app');
+            console.log('✅ Web app interface should now be visible');
         }
         
         function downloadMobileApp() {
-            document.querySelector('.container').style.display = 'none';
-            document.getElementById('web-app-interface').style.display = 'none';
-            document.getElementById('mobile-app-section').style.display = 'block';
+            console.log('📱 Opening mobile app section...');
+            
+            // Hide landing page content
+            const landingContent = document.querySelector('.hero-section, .features, .cta-section, .demo-section, .status');
+            if (landingContent) {
+                landingContent.style.display = 'none';
+            }
+            
+            // Hide web app interface
+            const webAppInterface = document.getElementById('web-app-interface');
+            if (webAppInterface) {
+                webAppInterface.style.display = 'none';
+            }
+            
+            // Show mobile app section
+            const mobileAppSection = document.getElementById('mobile-app-section');
+            if (mobileAppSection) {
+                mobileAppSection.style.display = 'block';
+            }
             
             // Update URL without page reload
             history.pushState({page: 'mobile-app'}, 'InvenShop Mobile App', '#mobile-app');
+            console.log('✅ Mobile app section should now be visible');
         }
         
         function showLandingPage() {
-            document.querySelector('.container').style.display = 'block';
-            document.getElementById('web-app-interface').style.display = 'none';
-            document.getElementById('mobile-app-section').style.display = 'none';
+            console.log('🏠 Returning to landing page...');
+            
+            // Show landing page content
+            const landingContent = document.querySelector('.hero-section, .features, .cta-section, .demo-section, .status');
+            if (landingContent) {
+                landingContent.style.display = 'block';
+            }
+            
+            // Hide web app interface
+            const webAppInterface = document.getElementById('web-app-interface');
+            if (webAppInterface) {
+                webAppInterface.style.display = 'none';
+            }
+            
+            // Hide mobile app section
+            const mobileAppSection = document.getElementById('mobile-app-section');
+            if (mobileAppSection) {
+                mobileAppSection.style.display = 'none';
+            }
             
             // Update URL without page reload
             history.pushState({page: 'home'}, 'InvenShop - Digital Shop Assistant', '#home');
+            console.log('✅ Landing page should now be visible');
         }
         
         // Web app feature functions
