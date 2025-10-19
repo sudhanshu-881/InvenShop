@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../presentation/auth_screen/auth_screen.dart';
 import '../presentation/auth_screen/simplified_auth_screen.dart';
+import '../presentation/auth_screen/supabase_auth_screen.dart';
 import '../presentation/billing_screen/billing_screen.dart';
 import '../presentation/billing_screen/simplified_billing_screen.dart';
 import '../presentation/profile_settings_screen/profile_settings_screen.dart';
@@ -30,9 +31,12 @@ class AppRoutes {
   static const String simplifiedBilling = '/simplified-billing';
   static const String simplifiedCustomers = '/simplified-customers';
   static const String simplifiedProducts = '/simplified-products';
+  
+  // Supabase routes
+  static const String supabaseAuth = '/supabase-auth';
 
   static Map<String, WidgetBuilder> routes = {
-    initial: (context) => const SimplifiedAuthScreen(),
+    initial: (context) => const SupabaseAuthScreen(),
     auth: (context) => const AuthScreen(),
     businessRegistration: (context) => const BusinessRegistrationScreen(),
     inventoryDashboard: (context) => const InventoryDashboard(),
@@ -48,5 +52,8 @@ class AppRoutes {
     simplifiedBilling: (context) => const SimplifiedBillingScreen(),
     simplifiedCustomers: (context) => const SimplifiedCustomerScreen(),
     simplifiedProducts: (context) => const SimplifiedProductScreen(),
+    
+    // Supabase routes
+    supabaseAuth: (context) => const SupabaseAuthScreen(),
   };
 }
