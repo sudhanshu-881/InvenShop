@@ -2,25 +2,16 @@
   "version": 2,
   "builds": [
     {
-      "src": "web/**",
+      "src": "build/web/**",
       "use": "@vercel/static"
     }
   ],
   "routes": [
     {
-      "src": "/",
-      "dest": "/web/index.html"
-    },
-    {
       "src": "/(.*)",
-      "dest": "/web/$1"
+      "dest": "/build/web/$1"
     }
   ],
-  "functions": {
-    "web/main.dart.js": {
-      "maxDuration": 30
-    }
-  },
   "headers": [
     {
       "source": "/(.*)",
@@ -40,7 +31,7 @@
       ]
     },
     {
-      "source": "/web/(.*\\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot))",
+      "source": "/(.*\\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot))",
       "headers": [
         {
           "key": "Cache-Control",
@@ -52,7 +43,7 @@
   "rewrites": [
     {
       "source": "/(.*)",
-      "destination": "/web/$1"
+      "destination": "/build/web/$1"
     }
   ]
 }
