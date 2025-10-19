@@ -1,12 +1,15 @@
 {
   "version": 2,
-  "buildCommand": "flutter build web --release --web-renderer html --dart-define=FLUTTER_WEB_USE_SKIA=false --base-href /",
-  "outputDirectory": "build/web",
-  "installCommand": "flutter pub get",
+  "builds": [
+    {
+      "src": "web/**",
+      "use": "@vercel/static"
+    }
+  ],
   "rewrites": [
     {
       "source": "/((?!api/).*)",
-      "destination": "/index.html"
+      "destination": "/web/index.html"
     }
   ],
   "headers": [

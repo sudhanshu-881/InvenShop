@@ -1,163 +1,313 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <base href="/" />
-  
-  <meta charset="UTF-8" />
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible" />
-  <meta name="description" content="InvenShop - Your Digital Shop Assistant for Indian Retail" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  
-  <!-- PWA Meta Tags -->
-  <meta name="theme-color" content="#2E7D32" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="InvenShop" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  
-  <!-- Favicon and Icons -->
-  <link rel="icon" type="image/png" href="favicon.png" />
-  <link rel="apple-touch-icon" href="icons/Icon-192.png" />
-  <link rel="manifest" href="manifest.json" />
-  
-  <title>InvenShop - Digital Shop Assistant</title>
-  
-  <!-- Loading Styles -->
-  <style>
-    body {
-      background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      overflow: hidden;
-    }
-
-    #loading-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
-      z-index: 9999;
-    }
-
-    .logo {
-      font-size: 3rem;
-      font-weight: bold;
-      color: white;
-      margin-bottom: 1rem;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    }
-
-    .loader {
-      border: 4px solid rgba(255, 255, 255, 0.3);
-      border-top: 4px solid #FF6B35;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      animation: spin 1s linear infinite;
-      margin-bottom: 1rem;
-    }
-
-    .loading-text {
-      color: white;
-      font-size: 1.1rem;
-      opacity: 0.9;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    .fade-out {
-      opacity: 0;
-      transition: opacity 0.5s ease-out;
-    }
-  </style>
-</head>
-<body>
-  <!-- Loading Screen -->
-  <div id="loading-container">
-    <div class="logo">🏪 InvenShop</div>
-    <div class="loader"></div>
-    <div class="loading-text">Loading your digital shop assistant...</div>
-  </div>
-
-  <!-- Flutter App Container -->
-  <div id="app"></div>
-
-  <!-- Flutter Scripts -->
-  <script src="flutter.js" defer></script>
-  <script>
-    // Flutter app initialization
-    window.addEventListener('load', function(ev) {
-      // Download main.dart.js
-      _flutter.loader.loadEntrypoint({
-        serviceWorker: {
-          serviceWorkerVersion: null,
-        },
-        onEntrypointLoaded: function(engineInitializer) {
-          engineInitializer.initializeEngine().then(function(appRunner) {
-            // Hide loading screen
-            const loadingContainer = document.getElementById('loading-container');
-            if (loadingContainer) {
-              loadingContainer.classList.add('fade-out');
-              setTimeout(() => {
-                loadingContainer.style.display = 'none';
-              }, 500);
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InvenShop - Digital Shop Assistant</title>
+    <meta name="description" content="InvenShop - Your Digital Shop Assistant for Indian Retail">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#2E7D32">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="InvenShop">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="manifest" href="manifest.json">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .container {
+            text-align: center;
+            max-width: 800px;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .logo {
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .description {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            opacity: 0.8;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .feature {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .feature h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            color: #FF6B35;
+        }
+        
+        .feature p {
+            font-size: 1rem;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+        
+        .cta-section {
+            margin: 2rem 0;
+        }
+        
+        .cta-button {
+            background: #FF6B35;
+            color: white;
+            padding: 1.2rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+            margin: 0.5rem;
+        }
+        
+        .cta-button:hover {
+            background: #E55A2B;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+        }
+        
+        .cta-button.secondary {
+            background: transparent;
+            border: 2px solid #FF6B35;
+            color: #FF6B35;
+        }
+        
+        .cta-button.secondary:hover {
+            background: #FF6B35;
+            color: white;
+        }
+        
+        .status {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(76, 175, 80, 0.2);
+            border-radius: 15px;
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+        
+        .status h3 {
+            color: #4CAF50;
+            margin-bottom: 0.8rem;
+            font-size: 1.3rem;
+        }
+        
+        .status p {
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        
+        .demo-section {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .demo-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+        
+        .demo-button {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .demo-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 1rem;
+                padding: 1.5rem;
             }
             
-            // Start the Flutter app
-            appRunner.runApp();
-          });
+            .logo {
+                font-size: 3rem;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+            
+            .demo-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
         }
-      });
-    });
-
-    // Error handling
-    window.addEventListener('error', function(e) {
-      console.error('Flutter web error:', e.error);
-      const loadingContainer = document.getElementById('loading-container');
-      if (loadingContainer) {
-        loadingContainer.innerHTML = `
-          <div class="logo">🏪 InvenShop</div>
-          <div style="color: #ff6b6b; text-align: center; margin-top: 1rem;">
-            <p>Failed to load the application.</p>
-            <p>Please refresh the page or try again later.</p>
-            <button onclick="location.reload()" style="
-              background: #FF6B35; 
-              color: white; 
-              border: none; 
-              padding: 10px 20px; 
-              border-radius: 5px; 
-              cursor: pointer;
-              margin-top: 1rem;
-            ">Refresh Page</button>
-          </div>
-        `;
-      }
-    });
-
-    // PWA installation prompt
-    let deferredPrompt;
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      
-      // Show install button (optional)
-      console.log('PWA install prompt available');
-    });
-
-    // Service worker registration
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('flutter-first-frame', function () {
-        navigator.serviceWorker.register('flutter_service_worker.js');
-      });
-    }
-  </script>
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">🏪 InvenShop</div>
+        <div class="subtitle">Your Digital Shop Assistant for Indian Retail</div>
+        
+        <div class="description">
+            Transform your retail business with InvenShop - the comprehensive inventory management and customer relationship solution designed specifically for Indian retailers. Manage inventory, track customers, generate bills, and grow your business with powerful analytics.
+        </div>
+        
+        <div class="features">
+            <div class="feature">
+                <h3>📦 Smart Inventory Management</h3>
+                <p>Track products, manage stock levels, get low-stock alerts, and maintain optimal inventory levels with intelligent suggestions.</p>
+            </div>
+            <div class="feature">
+                <h3>👥 Customer Relationship Management</h3>
+                <p>Build lasting relationships with credit tracking, purchase history, and personalized customer insights for better retention.</p>
+            </div>
+            <div class="feature">
+                <h3>💰 Advanced Billing & Payments</h3>
+                <p>Generate professional bills, track payments, manage multiple payment methods, and maintain accurate financial records.</p>
+            </div>
+            <div class="feature">
+                <h3>📊 Business Analytics Dashboard</h3>
+                <p>Get real-time insights into sales performance, inventory trends, and business growth with comprehensive analytics.</p>
+            </div>
+            <div class="feature">
+                <h3>🛒 Multi-Channel Selling</h3>
+                <p>Expand your business with online marketplace integration, social media selling, and digital presence management.</p>
+            </div>
+            <div class="feature">
+                <h3>📱 Mobile-First Design</h3>
+                <p>Access your business data anywhere with our responsive mobile app and web interface designed for Indian retailers.</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <a href="#" class="cta-button" onclick="showComingSoon('Mobile App')">
+                📱 Download Mobile App
+            </a>
+            <a href="#" class="cta-button secondary" onclick="showComingSoon('Web App')">
+                🌐 Try Web Version
+            </a>
+        </div>
+        
+        <div class="demo-section">
+            <h3 style="color: #FF6B35; margin-bottom: 1rem;">🎯 See InvenShop in Action</h3>
+            <p style="opacity: 0.9; margin-bottom: 1rem;">Experience the power of digital retail management with our interactive demos:</p>
+            <div class="demo-buttons">
+                <button class="demo-button" onclick="showDemo('inventory')">📦 Inventory Demo</button>
+                <button class="demo-button" onclick="showDemo('billing')">💰 Billing Demo</button>
+                <button class="demo-button" onclick="showDemo('analytics')">📊 Analytics Demo</button>
+                <button class="demo-button" onclick="showDemo('customers')">👥 Customer Demo</button>
+            </div>
+        </div>
+        
+        <div class="status">
+            <h3>🚀 Coming Soon: Full Web Application</h3>
+            <p>We're working hard to bring you the complete InvenShop experience in your web browser. The full web application will include all features from the mobile app, optimized for desktop and tablet use. Stay tuned for the launch!</p>
+        </div>
+    </div>
+    
+    <script>
+        // Interactive functionality
+        function showComingSoon(type) {
+            alert(`${type} is coming soon! 🚀\n\nWe're working hard to bring you the complete InvenShop experience. The mobile app will be available on Play Store and App Store, while the web version will launch soon.\n\nStay updated by following our development progress!`);
+        }
+        
+        function showDemo(type) {
+            const demos = {
+                'inventory': '📦 Inventory Management Demo\n\n• Add/Edit products with photos\n• Track stock levels and get alerts\n• Barcode scanning for quick entry\n• Category management and search\n• Low stock notifications',
+                'billing': '💰 Billing & Payments Demo\n\n• Generate professional invoices\n• Multiple payment methods\n• GST calculation and compliance\n• Customer credit management\n• Payment tracking and reports',
+                'analytics': '📊 Analytics Dashboard Demo\n\n• Sales performance metrics\n• Inventory turnover analysis\n• Customer insights and trends\n• Profit margin calculations\n• Business growth tracking',
+                'customers': '👥 Customer Management Demo\n\n• Customer database and profiles\n• Purchase history tracking\n• Credit limit management\n• Loyalty program features\n• Communication tools'
+            };
+            
+            alert(demos[type] || 'Demo coming soon!');
+        }
+        
+        // Add some interactive effects
+        document.querySelectorAll('.feature').forEach(feature => {
+            feature.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px)';
+            });
+            
+            feature.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+        
+        // Add click effects to buttons
+        document.querySelectorAll('.cta-button, .demo-button').forEach(button => {
+            button.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+        });
+        
+        // Console welcome message
+        console.log('🏪 Welcome to InvenShop!');
+        console.log('🚀 Full web application coming soon!');
+        console.log('📱 Mobile app available on Play Store & App Store');
+    </script>
 </body>
 </html>
