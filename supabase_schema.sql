@@ -150,6 +150,22 @@ CREATE TABLE analytics_events (
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- Images table for storing image metadata
+CREATE TABLE images (
+  id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+  shop_id UUID REFERENCES shops(id) ON DELETE CASCADE NOT NULL,
+  entity_id UUID NOT NULL,
+  entity_type TEXT NOT NULL, -- 'product', 'customer', 'shop', etc.
+  url TEXT NOT NULL,
+  public_id TEXT, -- Cloudinary public ID
+  alt_text TEXT,
+  caption TEXT,
+  is_primary BOOLEAN DEFAULT FALSE,
+  sort_order INTEGER DEFAULT 0,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
 -- Create indexes for better performance
 CREATE INDEX idx_products_shop_id ON products(shop_id);
 CREATE INDEX idx_products_category_id ON products(category_id);
@@ -175,6 +191,9 @@ CREATE INDEX idx_staff_shop_id ON staff(shop_id);
 CREATE INDEX idx_notifications_shop_id ON notifications(shop_id);
 CREATE INDEX idx_notifications_user_id ON notifications(user_id);
 CREATE INDEX idx_analytics_events_shop_id ON analytics_events(shop_id);
+CREATE INDEX idx_images_shop_id ON images(shop_id);
+CREATE INDEX idx_images_entity ON images(entity_id, entity_type);
+CREATE INDEX idx_images_public_id ON images(public_id);
 
 -- Create functions for common operations
 
@@ -391,6 +410,9 @@ CREATE TRIGGER update_transactions_updated_at BEFORE UPDATE ON transactions
 CREATE TRIGGER update_staff_updated_at BEFORE UPDATE ON staff
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
+CREATE TRIGGER update_images_updated_at BEFORE UPDATE ON images
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
 -- Row Level Security (RLS) policies
 ALTER TABLE shops ENABLE ROW LEVEL SECURITY;
 ALTER TABLE categories ENABLE ROW LEVEL SECURITY;
@@ -401,6 +423,7 @@ ALTER TABLE transaction_items ENABLE ROW LEVEL SECURITY;
 ALTER TABLE staff ENABLE ROW LEVEL SECURITY;
 ALTER TABLE notifications ENABLE ROW LEVEL SECURITY;
 ALTER TABLE analytics_events ENABLE ROW LEVEL SECURITY;
+ALTER TABLE images ENABLE ROW LEVEL SECURITY;
 
 -- RLS Policies for shops
 CREATE POLICY "Users can view their own shop" ON shops
@@ -500,6 +523,19 @@ CREATE POLICY "Users can view analytics events of their shop" ON analytics_event
 
 CREATE POLICY "Users can insert analytics events for their shop" ON analytics_events
   FOR INSERT WITH CHECK (auth.uid() = shop_id);
+
+-- RLS Policies for images
+CREATE POLICY "Users can view images of their shop" ON images
+  FOR SELECT USING (auth.uid() = shop_id);
+
+CREATE POLICY "Users can insert images for their shop" ON images
+  FOR INSERT WITH CHECK (auth.uid() = shop_id);
+
+CREATE POLICY "Users can update images of their shop" ON images
+  FOR UPDATE USING (auth.uid() = shop_id);
+
+CREATE POLICY "Users can delete images of their shop" ON images
+  FOR DELETE USING (auth.uid() = shop_id);
 
 -- Insert default categories for new shops
 CREATE OR REPLACE FUNCTION create_default_categories()
