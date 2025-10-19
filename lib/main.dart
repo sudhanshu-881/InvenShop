@@ -9,12 +9,16 @@ import 'core/app_config.dart';
 import 'core/error_handler.dart';
 import 'core/offline_manager.dart';
 import 'widgets/custom_error_widget.dart';
+import 'services/supabase_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Initialize Hive for local storage
   await Hive.initFlutter();
+
+  // Initialize Supabase
+  await SupabaseService.initialize();
 
   // Initialize error handling
   _initializeErrorHandling();
