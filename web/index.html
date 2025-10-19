@@ -562,6 +562,15 @@
                 mobileAppSection.style.display = 'none';
             }
             
+            // Initialize the web app if not already done
+            if (window.invenShopApp) {
+                console.log('🔄 Reinitializing web app...');
+                window.invenShopApp.init();
+            } else {
+                console.log('🚀 Initializing web app for the first time...');
+                window.invenShopApp = new InvenShopApp();
+            }
+            
             // Update URL without page reload
             history.pushState({page: 'web-app'}, 'InvenShop Web App', '#web-app');
             console.log('✅ Web app interface should now be visible');

@@ -32,6 +32,8 @@ class InvenShopApp {
         if (this.isAuthenticated) {
             await this.loadInitialData();
         }
+        
+        console.log('✅ InvenShop Web App initialized');
     }
 
     setupEventListeners() {
@@ -117,16 +119,31 @@ class InvenShopApp {
     // UI Navigation Methods
     showLogin() {
         this.currentView = 'login';
+        // Show the web app interface first
+        const webAppInterface = document.getElementById('web-app-interface');
+        if (webAppInterface) {
+            webAppInterface.style.display = 'block';
+        }
         this.renderLogin();
     }
 
     showOTPVerification(phoneNumber) {
         this.currentView = 'otp';
+        // Ensure web app interface is visible
+        const webAppInterface = document.getElementById('web-app-interface');
+        if (webAppInterface) {
+            webAppInterface.style.display = 'block';
+        }
         this.renderOTPVerification(phoneNumber);
     }
 
     showDashboard() {
         this.currentView = 'dashboard';
+        // Ensure web app interface is visible
+        const webAppInterface = document.getElementById('web-app-interface');
+        if (webAppInterface) {
+            webAppInterface.style.display = 'block';
+        }
         this.renderDashboard();
     }
 
@@ -519,7 +536,13 @@ class InvenShopApp {
 
     // UI Rendering Methods
     renderLogin() {
+        console.log('🔐 Rendering login form...');
         const appContainer = document.getElementById('web-app-interface');
+        if (!appContainer) {
+            console.error('❌ Web app interface container not found!');
+            return;
+        }
+        console.log('✅ Web app interface container found, rendering login...');
         appContainer.innerHTML = `
             <div class="login-container">
                 <div class="login-card">
@@ -1317,5 +1340,8 @@ class InvenShopApp {
     }
 }
 
-// Initialize the app
-InvenShopApp.init();
+// Initialize the app when DOM is loaded, but don't auto-start
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('📱 InvenShop Web App loaded and ready');
+    console.log('🌐 Click "Continue on Web" to start the application');
+});
