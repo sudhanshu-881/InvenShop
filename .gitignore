@@ -33,7 +33,7 @@ pubspec.lock
 .pub-cache/
 .pub/
 /build/
-/web/
+# /web/ - Allow web directory for Vercel deployment
 
 # Symbolication related
 app.*.symbols
