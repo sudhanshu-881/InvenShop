@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:sizer/sizer.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter/foundation.dart';
 
 import 'core/app_export.dart';
 import 'core/app_config.dart';
@@ -63,6 +62,10 @@ void _initializeErrorHandling() {
 
   // Set up error widget builder
   ErrorWidget.builder = (FlutterErrorDetails details) {
+    if (WebAdaptations.isWeb) {
+      return WebAdaptations.buildWebErrorWidget(details.exception.toString());
+    }
+    
     return CustomErrorWidget(
       errorDetails: details,
     );
@@ -87,7 +90,7 @@ class MyApp extends StatelessWidget {
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
         themeMode: ThemeMode.light,
-        // 🚨 CRITICAL: NEVER REMOVE OR MODIFY
+        // Web-specific builder
         builder: (context, child) {
           return MediaQuery(
             data: MediaQuery.of(context).copyWith(
@@ -96,7 +99,6 @@ class MyApp extends StatelessWidget {
             child: child!,
           );
         },
-        // 🚨 END CRITICAL SECTION
         debugShowCheckedModeBanner: AppConfig.isDebugMode,
         routes: AppRoutes.routes,
         initialRoute: AppRoutes.initial,
@@ -111,6 +113,10 @@ class MyApp extends StatelessWidget {
   }
 
   Widget _buildErrorPage(String routeName) {
+    if (WebAdaptations.isWeb) {
+      return WebAdaptations.buildWebErrorWidget('Page "$routeName" not found');
+    }
+    
     return Scaffold(
       body: Center(
         child: Column(

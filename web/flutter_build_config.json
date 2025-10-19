@@ -1,0 +1,17 @@
+{
+  "buildName": "invenshop-web",
+  "buildNumber": "1.0.0",
+  "version": "1.0.0+1",
+  "webRenderer": "html",
+  "baseHref": "/",
+  "optimizations": {
+    "treeShakeIcons": true,
+    "minify": true,
+    "sourceMaps": true
+  },
+  "features": {
+    "pwa": true,
+    "serviceWorker": true,
+    "offlineSupport": true
+  }
+}

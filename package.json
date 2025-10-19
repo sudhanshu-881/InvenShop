@@ -1,12 +1,14 @@
 {
   "name": "invenshop-web",
   "version": "1.0.0",
-  "description": "InvenShop - Digital Shop Assistant",
+  "description": "InvenShop - Digital Shop Assistant for Indian Retail",
   "scripts": {
-    "build": "flutter build web --release --web-renderer html --dart-define=FLUTTER_WEB_USE_SKIA=false",
+    "build": "flutter build web --release --web-renderer html --dart-define=FLUTTER_WEB_USE_SKIA=false --base-href /",
     "dev": "flutter run -d web-server --web-port 3000",
     "clean": "flutter clean",
-    "get": "flutter pub get"
+    "get": "flutter pub get",
+    "build:web": "flutter build web --release --web-renderer html --dart-define=FLUTTER_WEB_USE_SKIA=false --dart-define=FLUTTER_WEB_AUTO_DETECT=true --base-href /",
+    "serve": "flutter run -d web-server --web-port 3000 --web-renderer html"
   },
   "engines": {
     "node": ">=16.0.0"

@@ -1,199 +1,163 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>InvenShop - Digital Shop Assistant</title>
-    <meta name="description" content="InvenShop - Your Digital Shop Assistant for Indian Retail">
-    
-    <!-- PWA Meta Tags -->
-    <meta name="theme-color" content="#2E7D32">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="InvenShop">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="manifest" href="manifest.json">
-    
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-        }
-        
-        .container {
-            text-align: center;
-            max-width: 600px;
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        }
-        
-        .logo {
-            font-size: 3rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        
-        .subtitle {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
-        
-        .description {
-            font-size: 1rem;
-            line-height: 1.6;
-            margin-bottom: 2rem;
-            opacity: 0.8;
-        }
-        
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-        
-        .feature {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 1rem;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .feature h3 {
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .feature p {
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-        
-        .cta-button {
-            background: #FF6B35;
-            color: white;
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
-        }
-        
-        .cta-button:hover {
-            background: #E55A2B;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
-        }
-        
-        .status {
-            margin-top: 2rem;
-            padding: 1rem;
-            background: rgba(76, 175, 80, 0.2);
-            border-radius: 10px;
-            border: 1px solid rgba(76, 175, 80, 0.3);
-        }
-        
-        .status h3 {
-            color: #4CAF50;
-            margin-bottom: 0.5rem;
-        }
-        
-        .status p {
-            opacity: 0.9;
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                margin: 1rem;
-                padding: 1.5rem;
-            }
-            
-            .logo {
-                font-size: 2.5rem;
-            }
-            
-            .features {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+  <base href="/" />
+  
+  <meta charset="UTF-8" />
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible" />
+  <meta name="description" content="InvenShop - Your Digital Shop Assistant for Indian Retail" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  
+  <!-- PWA Meta Tags -->
+  <meta name="theme-color" content="#2E7D32" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="InvenShop" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  
+  <!-- Favicon and Icons -->
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="apple-touch-icon" href="icons/Icon-192.png" />
+  <link rel="manifest" href="manifest.json" />
+  
+  <title>InvenShop - Digital Shop Assistant</title>
+  
+  <!-- Loading Styles -->
+  <style>
+    body {
+      background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow: hidden;
+    }
+
+    #loading-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
+      z-index: 9999;
+    }
+
+    .logo {
+      font-size: 3rem;
+      font-weight: bold;
+      color: white;
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .loader {
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      border-top: 4px solid #FF6B35;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 1rem;
+    }
+
+    .loading-text {
+      color: white;
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .fade-out {
+      opacity: 0;
+      transition: opacity 0.5s ease-out;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="logo">🏪 InvenShop</div>
-        <div class="subtitle">Your Digital Shop Assistant for Indian Retail</div>
-        
-        <div class="description">
-            Transform your retail business with InvenShop - the comprehensive inventory management and customer relationship solution designed specifically for Indian retailers.
-        </div>
-        
-        <div class="features">
-            <div class="feature">
-                <h3>📦 Inventory Management</h3>
-                <p>Track products, manage stock levels, and get low-stock alerts</p>
-            </div>
-            <div class="feature">
-                <h3>👥 Customer Management</h3>
-                <p>Build customer relationships with credit tracking and purchase history</p>
-            </div>
-            <div class="feature">
-                <h3>💰 Billing & Payments</h3>
-                <p>Generate bills, track payments, and manage multiple payment methods</p>
-            </div>
-            <div class="feature">
-                <h3>📊 Analytics Dashboard</h3>
-                <p>Get insights into sales, inventory, and business performance</p>
-            </div>
-        </div>
-        
-        <a href="#" class="cta-button" onclick="alert('Mobile app coming soon! Download from Play Store or App Store.')">
-            Download Mobile App
-        </a>
-        
-        <div class="status">
-            <h3>🚀 Status: Web App in Development</h3>
-            <p>The web version is currently being optimized for the best experience. The mobile app provides the full InvenShop experience.</p>
-        </div>
-    </div>
-    
-    <script>
-        // Simple analytics tracking
-        console.log('InvenShop Landing Page Loaded');
-        
-        // Add some interactivity
-        document.querySelectorAll('.feature').forEach(feature => {
-            feature.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-5px)';
-                this.style.transition = 'transform 0.3s ease';
-            });
+  <!-- Loading Screen -->
+  <div id="loading-container">
+    <div class="logo">🏪 InvenShop</div>
+    <div class="loader"></div>
+    <div class="loading-text">Loading your digital shop assistant...</div>
+  </div>
+
+  <!-- Flutter App Container -->
+  <div id="app"></div>
+
+  <!-- Flutter Scripts -->
+  <script src="flutter.js" defer></script>
+  <script>
+    // Flutter app initialization
+    window.addEventListener('load', function(ev) {
+      // Download main.dart.js
+      _flutter.loader.loadEntrypoint({
+        serviceWorker: {
+          serviceWorkerVersion: null,
+        },
+        onEntrypointLoaded: function(engineInitializer) {
+          engineInitializer.initializeEngine().then(function(appRunner) {
+            // Hide loading screen
+            const loadingContainer = document.getElementById('loading-container');
+            if (loadingContainer) {
+              loadingContainer.classList.add('fade-out');
+              setTimeout(() => {
+                loadingContainer.style.display = 'none';
+              }, 500);
+            }
             
-            feature.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0)';
-            });
-        });
-    </script>
+            // Start the Flutter app
+            appRunner.runApp();
+          });
+        }
+      });
+    });
+
+    // Error handling
+    window.addEventListener('error', function(e) {
+      console.error('Flutter web error:', e.error);
+      const loadingContainer = document.getElementById('loading-container');
+      if (loadingContainer) {
+        loadingContainer.innerHTML = `
+          <div class="logo">🏪 InvenShop</div>
+          <div style="color: #ff6b6b; text-align: center; margin-top: 1rem;">
+            <p>Failed to load the application.</p>
+            <p>Please refresh the page or try again later.</p>
+            <button onclick="location.reload()" style="
+              background: #FF6B35; 
+              color: white; 
+              border: none; 
+              padding: 10px 20px; 
+              border-radius: 5px; 
+              cursor: pointer;
+              margin-top: 1rem;
+            ">Refresh Page</button>
+          </div>
+        `;
+      }
+    });
+
+    // PWA installation prompt
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      
+      // Show install button (optional)
+      console.log('PWA install prompt available');
+    });
+
+    // Service worker registration
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('flutter-first-frame', function () {
+        navigator.serviceWorker.register('flutter_service_worker.js');
+      });
+    }
+  </script>
 </body>
 </html>
